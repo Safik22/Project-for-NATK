@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="images/natk.jpg" type="image/x-icon">
+  <title>NATK</title>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header__top">
+          <div class="header__top-inner">
+            <a class="header__logo logo" href="/">
+              <img src="/images/logo.png" alt="logo">
+              <span>НАТК</span>
+            </a>
+            <form action="https://kinescope.io/201135696" target="_blank">
+                <input class="header__nav-link" type="submit" value="введение в компинтенуцию" />
+            </form>
+            <nav class="header__nav">
+              <ul class="header__nav-list">
+                <li class="header__nav-op">
+                  <button class="header__nav-link" id="menu__op-button">Описание компетенции</button>
+                </li>
+                <li class="header__nav-rp">
+                  <div class="header__nav-link" id="nav-rp" data-url="https://docs.google.com/document/d/1FTi-SON-QN2s_zJUiQc4RmG7ZwlOuBmr/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true">Рабочая программа</div>
+                </li>
+                <li class="header__nav-mgpw">
+                  <button class="header__nav-link" id="menu-button">Методические указания к практическим заданиям</button>
+                </li>
+                <li class="header__nav-ctp">
+                  <button class="header__nav-link" id="menu__ctp-button">Календарно-тематическое планирование</button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+      </div>
+    </header>
+    <div class="file__op-container">
+      <div class="header__menu-op" id="file-menu-op">
+        <span class="header__title">Описание компетенции</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1BtezeVPfVhGqBmo1B9hTHZDDo5tkVX_q/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">Описание компетенции Изготовление прототипов АД.docx</div>
+        </div>
+        <span class="header__title">Критерии-оценки</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/spreadsheets/d/1H1_1lgZXUiMf6pa2ScIRAlsdqE8yNi2d/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">Критерии-оценки.xlsx</div>
+        </div>
+        <span class="header__title">Конкурсное задание</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1VdgxV8HTf2llNx6OLfkffS9rWJ4kWx2G/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">Конкурсное задание.docx</div>
+        </div>
+        <span class="header__title">Задание</span>
+        <div class="file-list">
+          <div data-url="https://drive.google.com/uc?export=view&id=1y_TgwyQd9annWqHuqvAg586AjHbw1H3G" target="_blank" class="menu-link">Задание Кормовая часть судна Для чертежей.pdf</div>
+        </div>
+      </div>
+      <div id="fileViewerOp" class="file-viewer">
+        <iframe id="fileFrameOp" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+    <div class="file__menu-container">
+      <div class="header__menu-mdk" id="file-menu">
+        <span class="header__title">МДК 02.01</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1Df2CIiBgNEmzxBdvJwen0vzgxYgWESXz/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 1.docx</div>
+          <div data-url="https://docs.google.com/document/d/1IrWvPVA1ETCYrnOy68D_BE-tbx_0GYRQ/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 2.docx</div>
+          <div data-url="https://docs.google.com/document/d/1J_9WdBbU1J9XphoH1sk6tEsSQCgEYzcG/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 3.docx</div>
+          <div data-url="https://docs.google.com/document/d/1obJY00XC7240UvGTDWGjfgpEOwvcYFK_/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 4.docx</div>
+          <div data-url="https://docs.google.com/document/d/1FPa8SYj2rM-OzE46pl1k79sBtwp6IpFe/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 5.docx</div>
+          <div data-url="https://docs.google.com/document/d/1Pxitl41NhG9iQqjDRhbGChIbSvtSFuuW/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 6.docx</div>
+          <div data-url="https://docs.google.com/document/d/14OkNItVyTaFwqRKOhaBzy8GCJwZmdQzy/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 7.docx</div>
+          <div data-url="https://docs.google.com/document/d/1T64F3XgmmsIw6g31aiS9ufChT5dncpPA/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 8.docx</div>
+          <div data-url="https://docs.google.com/document/d/1tvHFdPMMhMiMOyJpzJiBFRBqsVO0CIdg/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 9.docx</div>
+          <div data-url="https://docs.google.com/document/d/162RKbNzaPLKByNcsfEIfMG_wU_iPTVAS/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 10.docx</div>
+        </div>
+        <span class="header__title">МДК 02.02</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1vXwTouBGu3ZD438TM6tSH3KS2wajChiX/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 1.docx</div>
+          <div data-url="https://docs.google.com/document/d/1lAwhEQghUheo0qr4gdhYuojJY0vY75xK/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 2.docx</div>
+          <div data-url="https://docs.google.com/document/d/1a2GDfkZSBJ5dAXJjwLyISd4afNk-h2fi/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 3.docx</div>
+          <div data-url="https://docs.google.com/document/d/1XfkPwUjQvbPQHukiB9lSlLCZYERTF444/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 4.docx</div>
+          <div data-url="https://docs.google.com/document/d/1Kjk1wdu80mLur-I4plB8wHnHIeqx5Od_/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 5.docx</div>
+          <div data-url="https://docs.google.com/document/d/1CX9X4wlRDtRmh8n7nbpedDfdgvhm8Lp_/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 6.docx</div>
+          <div data-url="https://docs.google.com/document/d/1AsizZl8Rq90s5xcqt2l-2sazKGSAi0Pe/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 7.docx</div>
+          <div data-url="https://docs.google.com/document/d/1FWUxSJsC9gSujP8RSV5biLMGiUhWvM-F/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 8.docx</div>
+          <div data-url="https://docs.google.com/document/d/1HIP8gARTnNN58b2S9xIrnYzXojsX6Eiz/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 9.docx</div>
+          <div data-url="https://docs.google.com/document/d/12S3AtTch-S05aObKeFWzsFnHa7YNIDhN/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 10.docx</div>
+          <div data-url="https://docs.google.com/document/d/1DGPqhWemswfo2YWfxYGeGtRnaBNI-AfG/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 11.docx</div>
+          <div data-url="https://docs.google.com/document/d/1WdoCtwAfaPgk7SUYj2Pi7M-q9FzAHWmv/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 12.docx</div>
+          <div data-url="https://docs.google.com/document/d/1O016pzxPx9Uotem6mjZ3MSGe69lrdZb9/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 13.docx</div>
+        </div>
+        <span class="header__title">МДК 02.03</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/14JAf6T8oQQ-XfCS9ykc9ifIL7Rh5emHc/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 1.docx</div>
+          <div data-url="https://docs.google.com/document/d/1_Psmzfd3zN_jxOFs6zIkiiRsjEb0wcp1/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 2.docx</div>
+          <div data-url="https://docs.google.com/document/d/1cnGqc7NL-jRwu3Gflk7Px44T3Ggm0LHS/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 3.docx</div>
+          <div data-url="https://docs.google.com/document/d/1kQRWuQVJ8v9V23c6FYR9XEjCsH0Lp_OO/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 4.docx</div>
+          <div data-url="https://docs.google.com/document/d/1L5mCMwCHgV3NDiYOLpOShIjxiBFm8OQc/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" class="menu-link">Пр.занятие 5.docx</div>
+        </div>
+      </div>
+      <div id="fileViewer" class="file-viewer">
+        <iframe id="fileFrame" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+    <div class="file__ctp-container">
+      <div class="file__ctp-title">изготовление прототипов<br><br>(аддитивное производство)</div>
+      <div class="header__menu-ctp" id="file-menu-ctp">
+        <span class="header__title">МДК 02.01</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1kPQtYuEmYQvDhiae5wX5GMTgA56FHsPF/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">КТП МДК.02.01.docx</div>
+        </div>
+        <span class="header__title">МДК 02.02</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1palUPHuZylPLChdMWd96It1ZSb-eUpBP/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">КТП МДК.02.02.docx</div>
+        </div>
+        <span class="header__title">МДК 02.03</span>
+        <div class="file-list">
+          <div data-url="https://docs.google.com/document/d/1wNPXzHCTB67bJARXJTAYp53gxIP2POHk/edit?usp=sharing&ouid=118441030014387543558&rtpof=true&sd=true" target="_blank" class="menu-link">КТП МДК.02.03.docx</div>
+        </div>
+      </div>
+      <div id="fileViewerCtp" class="file-viewer">
+        <iframe id="fileFrameCtp" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="js/mixitup.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
