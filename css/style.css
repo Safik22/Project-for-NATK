@@ -145,7 +145,6 @@ html, body {
   }
 
   .header__nav-list {
-    display: none;
     flex-direction: column;
     position: absolute;
     top: 100%; /* Под навигационной панелью */
@@ -154,17 +153,27 @@ html, body {
     background-color: #006ea6;
     z-index: 1000; /* Убедитесь, что список выше всех элементов */
     padding: 20px 0;
-  }
+    opacity: 0;
+    transform: translateY(-10px); /* Сдвиг вверх для эффекта появления */
+    transition: opacity .3s ease, transform .3s ease;
+    pointer-events: none; /* Отключает взаимодействие, когда меню скрыто */
+}
 
-  .header__nav-list.active {
-    display: flex;
-  }
+.header__nav-list.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto; /* Включает взаимодействие, когда меню активно */
+}
 
   .header__nav-list li {
     text-align: center;
     padding: 15px;
     background-color: #006ea6;
     border-bottom: 1px solid #fff;
+  }
+
+  .header__nav-link:first-child {
+    margin: 0 0 0 0 ;
   }
 
 }
@@ -182,15 +191,12 @@ html, body {
 
 .file__op-container{
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 50px;
   left: 0;
   width: 100%;
   height: calc(100% - 50px);
 }
-
 
 .file__menu-container {
   display: flex;
@@ -216,6 +222,7 @@ html, body {
   display: flex;
   width: 100%;
   height: 100%;
+  z-index: 0;
 }
 
 .file__ctp-title {
@@ -240,6 +247,16 @@ html, body {
   .file__ctp-title {
     font-size: 2em; /* Smaller title on smaller screens */
   }
+  .header__nav-link, #nav-rp {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 700;
+    line-height: 1.6;
+    white-space: nowrap;
+    transition: all .3s;
+    color: #fff;
+    background: #006ea6;
+  }
 }
 
 @media (max-width: 480px) {
@@ -260,13 +277,11 @@ html, body {
   background-color: #ddd;
   overflow-y: auto;
   padding: 20px;
-  z-index: 1;
 }
 
 .header__menu-ctp{
   position: fixed; /* Фиксированное положение */
   left: 0; /* Прижимаем к левому краю */
-  top: 50px; /* Отступ сверху */
 }
 
 .file-list {
@@ -290,9 +305,10 @@ html, body {
   background-color: #006ea6;
 }
 
-.file-viewer {
+.file-viewer, .file-viewerOp, .fileViewerCtp {
   display: none;
-  width: calc(100% );
+  width: calc(100% - 250px);
+  margin-left:250px ;
   height: 100%;
   border-left: 1px solid #ccc;
   position: absolute;

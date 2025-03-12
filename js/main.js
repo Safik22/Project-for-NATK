@@ -51,7 +51,6 @@
       } else {
         closeAllMenus();
         fileMenuOp.style.display = 'block';
-        fileViewerOp.style.display = 'block';
         fileMenuOp.style.zIndex = 10;
         fileViewerOp.style.zIndex = 10;
       }
@@ -74,7 +73,6 @@
       } else {
         closeAllMenus();
         fileMenuCtp.style.display = 'block';
-        fileViewerCtp.style.display = 'block';
         fileMenuCtp.style.zIndex = 10;
         fileViewerCtp.style.zIndex = 10;
       }
