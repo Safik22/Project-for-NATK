@@ -1,0 +1,115 @@
+html, body {
+  font-family: Lato, sans-serif;
+  color: #424551;
+  line-height: 160%;
+  margin: 0;
+  padding: 0;
+  background-image: url('/start-bg.jpg'); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed;
+}
+
+.wrapper {
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+/* =========================BODY============================ */
+/* =========================BODY============================ */
+
+
+.header__nav {
+  display: flex;
+  background-color: #006ea6;
+  position: relative;
+}
+.header__nav-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__logo {
+  display: flex;
+  margin-left: 10px;
+}
+
+.header__logo img {
+  padding-right: 7px;
+}
+
+.header__logo span {
+  padding-top: 4px;
+  font-size: 17pt;
+  font-weight: 700;
+  color: #f0ed69;
+}
+
+.button__compitation {
+  display: flex;
+  height: 80%;
+  justify-content: center;
+}
+.button__list {
+  width: calc(70% - 50px);
+}
+
+
+.button__block-additiv, .button__block-techology, .button__block-information, .button__block-optica{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #006ea6;
+  border-radius: 20px;
+  margin-top: 7vh;
+  padding: 4%;
+  font-size: 5vh;
+  color: #006ea6;
+}
+.button__block-additiv{
+  background-image:url("/btn-icons/btn-add.jpg");
+}
+
+.button__block-techology{
+  background-image: url("/btn-icons/tech.jpg");
+}
+
+.button__block-information{
+  background-image: url("/btn-icons/it.jpg");
+}
+
+.button__block-optica{
+  background-image:  url("/btn-icons/med.jpg");
+}
+
+@media (max-width: 480px) {
+
+  .button__block-additiv, .button__block-techology, .button__block-information, .button__block-optica{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #006ea6;
+    border-radius: 20px;
+    margin-top: 4vh;
+    padding: 15%;
+    font-size: 3.2vh;
+    color: #006ea6;
+  }
+}
+@media (max-width: 1000px) {
+
+  .button__block-additiv, .button__block-techology, .button__block-information, .button__block-optica{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #006ea6;
+    border-radius: 20px;
+    margin-top: 3vh;
+    padding: 15%;
+    font-size: 2.5vh;
+    color: #006ea6;
+  }
+}

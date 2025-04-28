@@ -4,7 +4,7 @@ html, body {
   line-height: 160%;
   margin: 0;
   padding: 0;
-  background-image: url('/bg.jpg'); 
+  background-image: url('/btn-icons/it.jpg'); 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-attachment: fixed;
@@ -240,17 +240,6 @@ html, body {
   margin-top: 0.5em;
 }
 
-.header__menu-mdk, .header__menu-ctp, .header__menu-op {
-  display: none;
-  width: 17%;
-  min-width: 150px;
-  height: 100%;
-  border-right: 1px solid #ccc;
-  background-color: #ddd;
-  overflow-y: auto;
-  padding: 20px;
-}
-
 /* Responsive font sizing (optional) */
 @media (max-width: 768px) {
   .file__ctp-title {
@@ -285,61 +274,30 @@ html, body {
 
   .header__menu-op, .header__menu-mdk, .header__menu-ctp {
     display: none; /* Скрываем меню при открытии iframe */
-    
   }
 }
 
 @media (max-width: 480px) {
   .file__ctp-title {
-    font-size: 1.5em; 
+    font-size: 1.5em; /* Even smaller title on very small screens */
   }
 
   .file__ctp-subtitle {
     font-size: 1em;
   }
-
-  .file__op-container{
-    display: flex;
-    position: absolute;
-    top: 32px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 40px);
-  }
-  
-  .file__menu-container {
-    display: flex;
-    position: absolute;
-    top: 32px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 40px);
-  }
-  
-  .file__ctp-container {
-    display: flex;
-    position: absolute;
-    top: 32px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 40px);
-  }
-  
-  .header__title{
-    font-size: 2vh;
-  }
-  .header__menu-mdk, .header__menu-ctp, .header__menu-op {
-    display: none;
-    width: 17%;
-    min-width: 150px;
-    height: 100%;
-    border-right: 1px solid #ccc;
-    background-color: #ddd;
-    overflow-y: auto;
-    padding: 20px 30px 20px 10px;
-  }
-  
 }
+
+.header__menu-mdk, .header__menu-ctp, .header__menu-op {
+  display: none;
+  width: 15%;
+  min-width: 150px;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  background-color: #ddd;
+  overflow-y: auto;
+  padding: 20px;
+}
+
 
 .file-list {
   list-style: none;
@@ -367,6 +325,7 @@ html, body {
   width: calc(100% );
   height: 100%;
   border-left: 1px solid #ccc;
+  /* position: absolute; */
   padding: 20px;
 }
 
