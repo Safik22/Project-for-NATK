@@ -4,7 +4,7 @@ html, body {
   line-height: 160%;
   margin: 0;
   padding: 0;
-  background-image: url('/bg.jpg'); 
+  background-image: url('/btn-icons/med.jpg'); 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-attachment: fixed;
@@ -211,7 +211,7 @@ html, body {
   left: 0;
   width: 100%;
   height: calc(100% - 50px);
- /* Stack title and content vertically */
+
 }
 
 .file__ctp-content {
@@ -227,8 +227,8 @@ html, body {
   color: #006ea6;
   font-style: italic;
   font-size: 3em;
-  text-align: center; /* Выравнивание текста по центру */
-  flex: 1; /* Занимает оставшееся пространство */
+  text-align: center; 
+  flex: 1; 
 
 }
 
@@ -297,6 +297,8 @@ html, body {
   .file__ctp-subtitle {
     font-size: 1em;
   }
+
+  
 
   .file__op-container{
     display: flex;

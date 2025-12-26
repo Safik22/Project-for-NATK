@@ -6,14 +6,14 @@ $(function () {
     navList.classList.toggle('active');
   });
 
-  // Закрываем выпадающий список при клике вне его
+
   document.addEventListener('click', function(event) {
     if (!navList.contains(event.target) && !navToggle.contains(event.target)) {
       navList.classList.remove('active');
     }
   });
 
-  // Закрываем выпадающий список при клике на любую кнопку внутри него
+
   navList.addEventListener('click', function(event) {
     if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT') {
       navList.classList.remove('active');
@@ -51,17 +51,17 @@ $(function () {
     } else {
       closeAllMenus();
       fileMenuOp.style.display = 'block';
-      fileViewerOp.style.display = 'none'; // Сначала скрываем просмотрщик
+      fileViewerOp.style.display = 'none'; 
       fileMenuOp.style.zIndex = 10;
     }
   });
   
-  // Обработчик клика для пунктов меню
+  
   document.querySelectorAll('#file-menu-op .menu-link').forEach(item => {
     item.addEventListener('click', function() {
       const fileUrl = this.getAttribute('data-url');
       fileFrameOp.src = fileUrl;
-      fileViewerOp.style.display = 'block'; // Показываем просмотрщик только при клике на файл
+      fileViewerOp.style.display = 'block'; 
       fileViewerOp.style.zIndex = 10;
     });
   });
@@ -121,7 +121,6 @@ $(function () {
       closeAllMenus();
   
       if (window.innerWidth <= 768) {
-        // Открываем iframe на всю ширину экрана на мобильных устройствах
         if (fileMenuOp.style.display === 'block') {
           fileFrameOp.src = fileUrl;
           fileViewerOp.style.display = 'block';
@@ -133,7 +132,6 @@ $(function () {
           fileViewer.style.display = 'block';
         }
       } else {
-        // Обычное поведение для больших экранов
         if (fileMenuOp.style.display === 'block') {
           fileFrameOp.src = fileUrl;
           fileViewerOp.style.display = 'block';
