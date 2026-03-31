@@ -1,0 +1,424 @@
+/* Стили для управления файлами Google Drive */
+
+/* Уведомления */
+.drive-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    z-index: 10000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-success {
+    background: #2ecc71;
+    border-left: 5px solid #27ae60;
+}
+
+.notification-error {
+    background: #e74c3c;
+    border-left: 5px solid #c0392b;
+}
+
+.notification-info {
+    background: #3498db;
+    border-left: 5px solid #2980b9;
+}
+
+.drive-notification button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 15px;
+    opacity: 0.7;
+}
+
+.drive-notification button:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Модальное окно */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: #006ea6;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* Формы */
+.drive-upload-form .form-group {
+    margin-bottom: 20px;
+}
+
+.drive-upload-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.drive-upload-form input[type="text"],
+.drive-upload-form input[type="file"],
+.drive-upload-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.drive-upload-form input[type="file"] {
+    padding: 8px 0;
+}
+
+.drive-upload-form small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+/* Кнопки */
+.drive-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.drive-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.drive-btn-add {
+    background: #2ecc71;
+    color: white;
+}
+
+.drive-btn-add:hover {
+    background: #27ae60;
+}
+
+.drive-btn-delete {
+    background: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.drive-btn-delete:hover {
+    background: #c0392b;
+}
+
+.drive-btn-refresh {
+    background: #3498db;
+    color: white;
+}
+
+.drive-btn-refresh:hover {
+    background: #2980b9;
+}
+
+.drive-btn-cancel {
+    background: #95a5a6;
+    color: white;
+}
+
+.drive-btn-cancel:hover {
+    background: #7f8c8d;
+}
+
+.drive-btn-submit {
+    background: #006ea6;
+    color: white;
+}
+
+.drive-btn-submit:hover {
+    background: #005a8c;
+}
+
+/* Панель управления преподавателя */
+.drive-teacher-controls {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* Файлы */
+.drive-file-list {
+    margin: 15px 0;
+}
+
+.drive-file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s;
+}
+
+.drive-file-item:hover {
+    border-color: #006ea6;
+    box-shadow: 0 2px 8px rgba(0, 110, 166, 0.1);
+    transform: translateY(-1px);
+}
+
+.drive-file-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    flex-grow: 1;
+}
+
+.drive-file-link:hover {
+    color: #006ea6;
+}
+
+.file-icon {
+    font-size: 18px;
+}
+
+.file-name {
+    flex-grow: 1;
+    word-break: break-word;
+}
+
+.drive-file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Категории */
+.drive-category {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.drive-category-title {
+    margin: 0 0 20px 0;
+    color: #006ea6;
+    border-bottom: 2px solid #006ea6;
+    padding-bottom: 10px;
+}
+
+/* Сообщение "Нет файлов" */
+.drive-no-files {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.drive-no-files p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .drive-file-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .drive-file-actions {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .drive-teacher-controls {
+        flex-direction: column;
+    }
+    
+    .drive-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+}
+/* Стили для обертки файла */
+.file-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.file-item-wrapper:hover {
+    background: #f0f7ff;
+}
+
+.file-item-wrapper .menu-link {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.file-item-wrapper .menu-link:hover {
+    color: #006ea6;
+    text-decoration: underline;
+}
+
+/* Стили для кнопки удаления */
+.delete-file-btn {
+    margin-left: 10px;
+    padding: 4px 12px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.delete-file-btn:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Стили для кнопки добавления */
+.add-file-btn {
+    display: block;
+    margin: 15px auto;
+    padding: 8px 25px;
+    background: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.add-file-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Стили для файлового списка */
+.file-list {
+    width: 100%;
+}

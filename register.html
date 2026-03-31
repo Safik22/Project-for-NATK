@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/authstyle.css">
+    <link rel="shortcut icon" href="images/natk.jpg" type="image/x-icon">
+    <title>Регистрация - НАТК</title>
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="images/logo.png" alt="NATK Logo" class="auth-logo">
+            <h1>НАТК</h1>
+            <h2>Регистрация в системе</h2>
+        </div>
+        
+        <div class="auth-form-container">
+            <form id="registerForm" class="auth-form">
+                <h3>Создание аккаунта</h3>
+                
+                <div class="form-group">
+                    <label for="regEmail">Электронная почта</label>
+                    <input type="email" id="regEmail" name="email" required 
+                        placeholder="user@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="regPassword">Пароль</label>
+                    <input type="password" id="regPassword" name="password" required 
+                        placeholder="Минимум 8 символов">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Подтвердите пароль</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required 
+                        placeholder="Повторите пароль">
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Роль</label>
+                    <select id="role" name="role" required>
+                        <option value="">Выберите роль</option>
+                        <option value="student">Студент</option>
+                        <option value="teacher">Преподаватель</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required>
+                        <span>Я согласен с условиями использования системы</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="auth-btn">Зарегистрироваться</button>
+                
+                <div class="auth-links">
+                    <a href="login.html">Уже есть аккаунт? Войти</a>
+                    <a href="startpage.html">На главную</a>
+                </div>
+                
+                <div id="registerMessage" class="message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>

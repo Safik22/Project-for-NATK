@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/authstyle.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Панель управления - НАТК</title>
+    <style>
+        /* Стили для dashboard */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .user-header {
+            background: linear-gradient(135deg, #006ea6, #004d73);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 110, 166, 0.3);
+        }
+        
+        .user-info h2 {
+            margin: 0 0 10px 0;
+            color: #f0ed69;
+        }
+        
+        .user-role {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 110, 166, 0.2);
+            border-color: #006ea6;
+        }
+        
+        .dashboard-card h3 {
+            color: #006ea6;
+            margin-top: 0;
+            border-bottom: 2px solid #f0ed69;
+            padding-bottom: 10px;
+        }
+        
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #006ea6;
+        }
+        
+        .card-actions {
+            margin-top: 20px;
+        }
+        
+        .btn-card {
+            display: inline-block;
+            background: #006ea6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+        
+        .btn-card:hover {
+            background: #004d73;
+            color: white;
+        }
+        
+        .admin-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .teacher-badge {
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .student-badge {
+            background: #2ecc71;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .status-pending {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        
+        .status-approved {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="NATK Logo" class="auth-logo">
+            <div>
+                <h1>НАТК</h1>
+                <h2>Система управления документами</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="user-header">
+            <div class="user-info">
+                <h2 id="userName">Загрузка...</h2>
+                <div id="userDetails">
+                    <p>Email: <span id="userEmail">-</span></p>
+                    <p>Роль: <span id="userRole">-</span></p>
+                    <p>Статус: <span id="userStatus">-</span></p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="auth.logout()">Выйти</button>
+        </div>
+        
+        <h2 style="color: #006ea6; margin-bottom: 20px;">📊 Доступные функции</h2>
+        
+        <div class="dashboard-grid" id="dashboardContent">
+            <!-- Контент загрузится через JavaScript -->
+            <p>Загрузка...</p>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script>
+        // Загрузка данных пользователя
+        async function loadUserData() {
+            const token = auth.getToken();
+            const user = auth.getUser();
+            
+            if (!token || !user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Отображаем сохраненные данные
+            document.getElementById('userName').textContent = user.email.split('@')[0];
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userRole').textContent = getRoleName(user.role);
+            document.getElementById('userStatus').textContent = getStatusName(user.status);
+            document.getElementById('userStatus').className = `status-${user.status}`;
+            
+            // Загружаем свежие данные с сервера
+            try {
+                const response = await fetch(`${auth.API_URL}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        auth.saveUser(data.user);
+                    }
+                }
+            } catch (error) {
+                console.log('Не удалось обновить данные');
+            }
+            
+            // Загружаем контент dashboard
+            loadDashboardContent(user.role);
+        }
+        
+        function getRoleName(role) {
+            switch(role) {
+                case 'admin': return 'Администратор';
+                case 'teacher': return 'Преподаватель';
+                case 'student': return 'Студент';
+                default: return role;
+            }
+        }
+        
+        function getStatusName(status) {
+            switch(status) {
+                case 'pending': return 'Ожидает подтверждения';
+                case 'approved': return 'Подтвержден';
+                case 'rejected': return 'Отклонен';
+                default: return status;
+            }
+        }
+        
+        function loadDashboardContent(role) {
+            const container = document.getElementById('dashboardContent');
+            let content = '';
+            
+            // Общие функции для всех
+            content += `
+                <div class="dashboard-card">
+                    <div class="card-icon">📁</div>
+                    <h3>Документы</h3>
+                    <p>Просмотр и управление документами</p>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card">Мои документы</a>
+                        <a href="#" class="btn-card">Загрузить</a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-icon">👤</div>
+                    <h3>Профиль</h3>
+                    <p>Управление личными данными</p>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card">Редактировать</a>
+                        <a href="#" class="btn-card">Сменить пароль</a>
+                    </div>
+                </div>
+            `;
+            
+            // Функции для администратора
+            if (role === 'admin') {
+                content += `
+                    <div class="dashboard-card">
+                        <div class="card-icon">👑</div>
+                        <h3>Администрирование</h3>
+                        <p>Управление пользователями и системой</p>
+                        <div class="card-actions">
+                            <a href="admin-panel.html" class="btn-card">Панель управления</a>
+                            <a href="#" class="btn-card">Настройки системы</a>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">📊</div>
+                        <h3>Статистика</h3>
+                        <p>Аналитика и отчеты</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn-card">Пользователи</a>
+                            <a href="#" class="btn-card">Документы</a>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Функции для преподавателя
+            if (role === 'teacher') {
+                content += `
+                    <div class="dashboard-card">
+                        <div class="card-icon">👨‍🏫</div>
+                        <h3>Преподавание</h3>
+                        <p>Управление учебными материалами</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn-card">Мои курсы</a>
+                            <a href="#" class="btn-card">Студенты</a>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">📝</div>
+                        <h3>Задания</h3>
+                        <p>Создание и проверка заданий</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn-card">Создать задание</a>
+                            <a href="#" class="btn-card">Проверка работ</a>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Функции для студента
+            if (role === 'student') {
+                content += `
+                    <div class="dashboard-card">
+                        <div class="card-icon">📚</div>
+                        <h3>Обучение</h3>
+                        <p>Учебные материалы и курсы</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn-card">Мои курсы</a>
+                            <a href="#" class="btn-card">Расписание</a>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">📄</div>
+                        <h3>Работы</h3>
+                        <p>Выполненные задания и работы</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn-card">Сдать работу</a>
+                            <a href="#" class="btn-card">Мои оценки</a>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = content;
+        }
+        
+        // Загружаем данные при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/authstyle.css">
+    <title>Панель администратора - НАТК</title>
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .users-table th,
+        .users-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .users-table th {
+            background-color: #006ea6;
+            color: white;
+        }
+        
+        .status-pending {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .status-approved {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .btn-approve {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+        }
+        
+        .btn-approve:hover {
+            background: #45a049;
+        }
+        
+        .btn-reject {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+        }
+        
+        .btn-reject:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-delete {
+            background: #9e9e9e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+        }
+        
+        .btn-delete:hover {
+            background: #757575;
+        }
+        
+        .auth-header {
+            background: #006ea6;
+            color: white;
+            padding: 20px 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-info {
+            margin-left: 10px;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+            color: white;
+        }
+        
+        .role-admin {
+            background: #e74c3c;
+        }
+        
+        .role-teacher {
+            background: #3498db;
+        }
+        
+        .role-student {
+            background: #2ecc71;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Обновленный header -->
+    <div class="auth-header">
+        <div class="header-content">
+            <div class="header-left">
+                <img src="images/logo.png" alt="NАТК Logo" class="auth-logo">
+                <div>
+                    <h1 style="margin: 0; color: #f0ed69;">НАТК - Панель администратора</h1>
+                    <div class="user-info">
+                        <p style="margin: 0;">Вы вошли как: <strong id="adminEmail"></strong></p>
+                        <p style="margin: 0; font-size: 12px; opacity: 0.8;">
+                            Роль: <span id="adminRole"></span>
+                            <span class="role-badge role-admin" id="roleBadge">Админ</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a href="startpage.html" style="color: white; text-decoration: none; margin-right: 15px;">🏠 На главную</a>
+                <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-container">
+        <h2>👥 Управление пользователями</h2>
+        
+        <div id="message" class="message"></div>
+        
+        <div id="loadingMessage" style="text-align: center; padding: 20px;">
+            ⏳ Загрузка пользователей...
+        </div>
+        
+        <div id="usersList" style="display: none;">
+            
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3>📊 Статистика системы</h3>
+            <p>Всего пользователей: <strong id="totalUsers">0</strong></p>
+            <p>Подтвержденных: <strong id="approvedCount">0</strong></p>
+            <p>Ожидают подтверждения: <strong id="pendingCount">0</strong></p>
+            <p>Отклоненных: <strong id="rejectedCount">0</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let token = localStorage.getItem('natk_token');
+        let currentUser = null;
+        
+        // Проверка авторизации при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!token) {
+                alert('Требуется авторизация!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            
+            loadCurrentUser();
+            
+            loadUsers();
+        });
+        
+        
+        async function loadCurrentUser() {
+            try {
+                const userStr = localStorage.getItem('natk_user');
+                if (userStr) {
+                    currentUser = JSON.parse(userStr);
+                    document.getElementById('adminEmail').textContent = currentUser.email;
+                    document.getElementById('adminRole').textContent = 
+                        currentUser.role === 'admin' ? 'Администратор' :
+                        currentUser.role === 'teacher' ? 'Преподаватель' : 'Студент';
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки пользователя:', error);
+            }
+        }
+        
+        // Загрузка пользователей
+        async function loadUsers() {
+            try {
+                showMessage('Загрузка пользователей...', 'info');
+                
+                const response = await fetch(`${API_URL}/admin/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayUsers(data.users);
+                    updateStats(data.users);
+                    hideLoading();
+                } else {
+                    if (data.message === 'Требуются права администратора') {
+                        showMessage('❌ У вас нет прав администратора!', 'error');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 2000);
+                    } else {
+                        showMessage('❌ Ошибка загрузки: ' + data.message, 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showMessage('❌ Сервер недоступен. Проверьте подключение.', 'error');
+            }
+        }
+        
+        // Отображение пользователей
+        function displayUsers(users) {
+            const container = document.getElementById('usersList');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<p>Нет пользователей в системе</p>';
+                container.style.display = 'block';
+                return;
+            }
+            
+            let html = `
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th>Статус</th>
+                            <th>Дата регистрации</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            users.forEach(user => {
+                const roleText = 
+                    user.role === 'admin' ? '👑 Админ' : 
+                    user.role === 'teacher' ? '👨‍🏫 Преподаватель' : 
+                    '👨‍🎓 Студент';
+                
+                const statusText = 
+                    user.status === 'approved' ? '✅ Подтвержден' : 
+                    user.status === 'pending' ? '⏳ Ожидает' : 
+                    '❌ Отклонен';
+                
+                const statusClass = 
+                    user.status === 'approved' ? 'status-approved' : 
+                    user.status === 'pending' ? 'status-pending' : 
+                    'status-rejected';
+                
+                // Показываем действия в зависимости от статуса
+                let actions = '—';
+                if (user.status === 'pending') {
+                    actions = `
+                        <button class="btn-approve" onclick="approveUser(${user.id})">
+                            ✅ Подтвердить
+                        </button>
+                        <button class="btn-reject" onclick="rejectUser(${user.id})">
+                            ❌ Отклонить
+                        </button>
+                    `;
+                } else if (user.status === 'approved' && user.role !== 'admin') {
+                    actions = `
+                        <button class="btn-reject" onclick="rejectUser(${user.id})">
+                            ❌ Отклонить
+                        </button>
+                        <button class="btn-delete" onclick="deleteUser(${user.id})">
+                            🗑️ Удалить
+                        </button>
+                    `;
+                } else if (user.status === 'rejected') {
+                    actions = `
+                        <button class="btn-approve" onclick="approveUser(${user.id})">
+                            ✅ Восстановить
+                        </button>
+                        <button class="btn-delete" onclick="deleteUser(${user.id})">
+                            🗑️ Удалить
+                        </button>
+                    `;
+                }
+                
+                // Скрываем действия для текущего пользователя-админа
+                if (currentUser && currentUser.id === user.id) {
+                    actions = '<em>Текущий пользователь</em>';
+                }
+                
+                html += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.email}</td>
+                        <td>${roleText}</td>
+                        <td class="${statusClass}">${statusText}</td>
+                        <td>${new Date(user.created_at).toLocaleDateString('ru-RU')}</td>
+                        <td>${actions}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+            container.style.display = 'block';
+        }
+        
+        // Обновление статистики
+        function updateStats(users) {
+            const total = users.length;
+            const approved = users.filter(u => u.status === 'approved').length;
+            const pending = users.filter(u => u.status === 'pending').length;
+            const rejected = users.filter(u => u.status === 'rejected').length;
+            
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('rejectedCount').textContent = rejected;
+        }
+        
+        // Подтверждение пользователя
+        async function approveUser(userId) {
+            if (!confirm('Подтвердить этого пользователя?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/users/${userId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Пользователь подтвержден!', 'success');
+                    loadUsers(); // Перезагружаем список
+                } else {
+                    showMessage('❌ Ошибка: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showMessage('❌ Сервер недоступен', 'error');
+            }
+        }
+        
+        
+        async function rejectUser(userId) {
+            if (!confirm('Отклонить этого пользователя?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/users/${userId}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Пользователь отклонен!', 'success');
+                    loadUsers(); // Перезагружаем список
+                } else {
+                    showMessage('❌ Ошибка: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showMessage('❌ Сервер недоступен', 'error');
+            }
+        }
+        
+        
+        async function deleteUser(userId) {
+            if (!confirm('Удалить этого пользователя? Это действие нельзя отменить!')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Пользователь удален!', 'success');
+                    loadUsers(); 
+                } else {
+                    showMessage('❌ Ошибка: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showMessage('❌ Сервер недоступен', 'error');
+            }
+        }
+        
+        // Выход из системы
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                localStorage.removeItem('natk_token');
+                localStorage.removeItem('natk_user');
+                window.location.href = 'login.html';
+            }
+        }
+        
+    
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        
+        function hideLoading() {
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+        
+        
+        window.logout = logout;
+        window.approveUser = approveUser;
+        window.rejectUser = rejectUser;
+        window.deleteUser = deleteUser;
+        
+        
+        setInterval(loadUsers, 30000);
+    </script>
+</body>
+</html>
