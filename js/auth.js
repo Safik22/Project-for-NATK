@@ -1,8 +1,8 @@
-const API_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://localhost:3000';
+const API_URL = `${API_BASE_URL}/api`;
 
 // Проверка авторизации при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    // Если это страница входа или регистрации, проверяем статус
     const currentPage = window.location.pathname;
     const isAuthPage = currentPage.includes('login.html') || currentPage.includes('register.html');
     
@@ -20,17 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
         loginForm.addEventListener('submit', handleLogin);
     }
     
-
     checkIfAlreadyLoggedIn();
 });
-
 
 async function checkAuthStatus() {
     const token = getToken();
     const user = getUser();
     
     if (token && user) {
-        
         try {
             const response = await fetch(`${API_URL}/auth/me`, {
                 headers: {
@@ -41,18 +38,15 @@ async function checkAuthStatus() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    
                     showAlreadyLoggedInMessage(user);
                     return;
                 }
             }
         } catch (error) {
-            // Токен невалиден, можно оставаться на странице
             console.log('Токен невалиден');
         }
     }
 }
-
 
 function checkIfAlreadyLoggedIn() {
     const token = getToken();
@@ -64,9 +58,7 @@ function checkIfAlreadyLoggedIn() {
     }
 }
 
-
 function showAlreadyLoggedInMessage(user) {
-
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const messageDiv = document.getElementById('alreadyLoggedIn') || createAlreadyLoggedInDiv();
@@ -75,69 +67,28 @@ function showAlreadyLoggedInMessage(user) {
     if (registerForm) registerForm.style.display = 'none';
     
     messageDiv.innerHTML = `
-        <div style="
-            background: #f8f9fa;
-            border: 2px solid #006ea6;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-            margin: 20px 0;
-        ">
+        <div style="background: #f8f9fa; border: 2px solid #006ea6; border-radius: 10px; padding: 25px; text-align: center; margin: 20px 0;">
             <h3 style="color: #006ea6; margin-top: 0;">Вы уже авторизованы в системе</h3>
             <p>Вы вошли как: <strong>${user.email}</strong></p>
             <p>Роль: <strong>${getRoleName(user.role)}</strong></p>
             <p>Статус: <strong>${getStatusName(user.status)}</strong></p>
+            ${user.groups ? `<p>Группы: <strong>${user.groups.map(g => g.name).join(', ')}</strong></p>` : ''}
             
             <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
-                <button onclick="goToDashboard()" style="
-                    background: #006ea6;
-                    color: white;
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    min-width: 200px;
-                ">
+                <button onclick="goToDashboard()" style="background: #006ea6; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; min-width: 200px;">
                     📊 Перейти в панель управления
                 </button>
-                
-                <button onclick="logoutAndStay()" style="
-                    background: #6c757d;
-                    color: white;
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    min-width: 200px;
-                ">
+                <button onclick="logoutAndStay()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; min-width: 200px;">
                     🔄 Выйти и войти снова
                 </button>
-                
-                <button onclick="logout()" style="
-                    background: #e74c3c;
-                    color: white;
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    min-width: 200px;
-                ">
+                <button onclick="logout()" style="background: #e74c3c; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; min-width: 200px;">
                     🚪 Выйти из системы
                 </button>
             </div>
-            
-            <p style="margin-top: 20px; font-size: 14px; color: #666;">
-                Если вы хотите создать новый аккаунт, сначала выйдите из текущего.
-            </p>
         </div>
     `;
-    
     messageDiv.style.display = 'block';
 }
-
 
 function createAlreadyLoggedInDiv() {
     const div = document.createElement('div');
@@ -147,7 +98,7 @@ function createAlreadyLoggedInDiv() {
     return div;
 }
 
-
+// ========== ГЛАВНАЯ ФУНКЦИЯ РЕГИСТРАЦИИ (с компетенциями) ==========
 async function handleRegister(e) {
     e.preventDefault();
     
@@ -157,7 +108,21 @@ async function handleRegister(e) {
     const role = document.getElementById('role').value;
     const messageDiv = document.getElementById('registerMessage') || document.getElementById('errorMessage');
     
-    // Валидация
+    // Получаем выбранные компетенции
+    let competenceIds = [];
+    
+    if (role === 'student') {
+        const selectedRadio = document.querySelector('input[name="competence"]:checked');
+        if (selectedRadio) {
+            competenceIds = [parseInt(selectedRadio.value)];
+        }
+    } else if (role === 'teacher') {
+        const checkboxes = document.querySelectorAll('input[name="competence"]:checked');
+        competenceIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+    }
+    
+    console.log('Выбранные компетенции:', competenceIds); // Для отладки
+    
     if (!email || !password || !confirmPassword || !role) {
         showMessage('Заполните все поля', 'error', messageDiv);
         return;
@@ -173,29 +138,37 @@ async function handleRegister(e) {
         return;
     }
     
+    // Проверки для компетенций
+    if (role === 'student' && competenceIds.length !== 1) {
+        showMessage('Студент должен выбрать одну компетенцию', 'error', messageDiv);
+        return;
+    }
+    
+    if (role === 'teacher' && competenceIds.length === 0) {
+        showMessage('Преподаватель должен выбрать хотя бы одну компетенцию', 'error', messageDiv);
+        return;
+    }
+    
     try {
         showMessage('Регистрация...', 'info', messageDiv);
         
         const response = await fetch(`${API_URL}/auth/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password, role })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email, 
+                password, 
+                role,
+                competenceIds 
+            })
         });
         
         const data = await response.json();
         
         if (data.success) {
             showMessage('✅ ' + data.message + '<br>Через 3 секунды вы будете перенаправлены на страницу входа.', 'success', messageDiv);
-            
-            // Очистка формы
-            this.reset();
-            
-            
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 3000);
+            document.getElementById('registerForm').reset();
+            setTimeout(() => { window.location.href = 'login.html'; }, 3000);
         } else {
             showMessage('❌ ' + data.message, 'error', messageDiv);
         }
@@ -205,7 +178,7 @@ async function handleRegister(e) {
     }
 }
 
-// Вход
+// ========== ФУНКЦИЯ ВХОДА ==========
 async function handleLogin(e) {
     e.preventDefault();
     
@@ -223,9 +196,7 @@ async function handleLogin(e) {
         
         const response = await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
         
@@ -233,15 +204,9 @@ async function handleLogin(e) {
         
         if (data.success) {
             showMessage('✅ Авторизация успешна!', 'success', errorMessage);
-            
-    
             saveToken(data.token);
             saveUser(data.user);
-            
-            
-            setTimeout(() => {
-                redirectByRole(data.user.role);
-            }, 1000);
+            setTimeout(() => { redirectByRole(data.user.role); }, 1000);
         } else {
             showMessage('❌ ' + data.message, 'error', errorMessage);
         }
@@ -251,10 +216,9 @@ async function handleLogin(e) {
     }
 }
 
-
+// ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
 function showMessage(message, type, element) {
     if (!element) return;
-    
     element.innerHTML = message;
     element.style.display = 'block';
     element.className = `message ${type}`;
@@ -307,12 +271,9 @@ function redirectByRole(role) {
     }
 }
 
-
 function goToDashboard() {
     const user = getUser();
-    if (user) {
-        redirectByRole(user.role);
-    }
+    if (user) redirectByRole(user.role);
 }
 
 function logoutAndStay() {
@@ -321,7 +282,6 @@ function logoutAndStay() {
     window.location.reload();
 }
 
-
 function logout() {
     if (confirm('Вы уверены, что хотите выйти из системы?')) {
         localStorage.removeItem('natk_token');
@@ -329,7 +289,6 @@ function logout() {
         window.location.href = 'login.html';
     }
 }
-
 
 window.auth = {
     logout,

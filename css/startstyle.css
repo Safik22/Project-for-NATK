@@ -52,93 +52,74 @@ html, body {
   color: #f0ed69;
 }
 
-/* Стили для кнопок авторизации */
+
+/* Стили для панели авторизации */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .user-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-right: 20px;
-  color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-details {
+    text-align: right;
 }
 
 .user-email {
-  font-size: 14px;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 5px 12px;
-  border-radius: 15px;
-  word-break: break-word;
-  max-width: 200px;
-}
-
-.logout-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s;
-  font-family: 'Lato', sans-serif;
-  white-space: nowrap;
-}
-
-.logout-btn:hover {
-  background: #c0392b;
-}
-
-.login-btn {
-  background: #f0ed69;
-  color: #006ea6;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s;
-  font-family: 'Lato', sans-serif;
-  text-decoration: none;
-  display: inline-block;
-  margin-right: 20px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.login-btn:hover {
-  background: #e6e053;
-}
-
-.auth-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.4;
+    font-family: 'Lato', sans-serif;
 }
 
 .user-role {
-  font-size: 12px;
-  opacity: 0.9;
-  text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    color: #f0ed69;
+    font-family: 'Lato', sans-serif;
 }
 
-.role-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 11px;
-  margin-left: 5px;
-  color: white;
+.logout-btn {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    transition: all 0.3s ease;
 }
 
-.role-admin { 
-  background: #e74c3c; 
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
-.role-teacher { 
-  background: #3498db; 
+.login-btn {
+    background: #f0ed69;
+    color: #006ea6;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.role-student { 
-  background: #2ecc71; 
+.login-btn:hover {
+    background: #e6e053;
 }
 
 /* =========================BODY============================ */
@@ -352,10 +333,21 @@ html, body {
   }
   
   .user-email {
-    font-size: 12px;
-    padding: 4px 10px;
-    max-width: 120px;
-  }
+        font-size: 12px;
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+  .user-role {
+        font-size: 11px;
+    }
+    
+  .logout-btn, .login-btn {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
   
   .logout-message {
     min-width: 280px;

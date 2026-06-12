@@ -1,71 +1,60 @@
-// backend/server.js
-const driveRoutes = require('./routes/drive');
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const groupsRoutes = require('./routes/groups');
+const competencesRoutes = require('./routes/competences');
+const documentsRoutes = require('./routes/documents'); // НОВЫЙ МАРШРУТ
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 app.use(cors({
-    origin: '*', 
+    origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
-}));;
+}));
+
+app.options('*', cors());
+
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '..')));
 
+console.log('📁 Статические файлы из:', path.join(__dirname, '..'));
+
+// Маршруты
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/drive', driveRoutes);
+app.use('/api/groups', groupsRoutes);
+app.use('/api/competences', competencesRoutes);
+app.use('/api/documents', documentsRoutes); // НОВЫЙ МАРШРУТ
 
-// Тестовые маршруты
 app.get('/', (req, res) => {
     res.json({ 
         message: '🚀 API НАТК работает!',
-        version: '1.0.0',
+        version: '2.0.0',
         endpoints: {
-            auth: {
-                register: 'POST /api/auth/register',
-                login: 'POST /api/auth/login',
-                me: 'GET /api/auth/me'
-            },
-            admin: {
-                users: 'GET /api/admin/users',
-                approve: 'POST /api/admin/users/:id/approve'
-            }
+            auth: { register: 'POST /api/auth/register', login: 'POST /api/auth/login', me: 'GET /api/auth/me' },
+            admin: { users: 'GET /api/admin/users' },
+            groups: { list: 'GET /api/groups' },
+            competences: { list: 'GET /api/competences' },
+            documents: { list: 'GET /api/documents/competence/:id', upload: 'POST /api/documents/upload', delete: 'DELETE /api/documents/:id' }
         }
     });
 });
 
-app.get('/api/test', (req, res) => {
-    res.json({ 
-        success: true, 
-        message: 'API тест пройден',
-        timestamp: new Date().toISOString()
-    });
-});
-
-// Обработка 404
 app.use((req, res) => {
-    res.status(404).json({ 
-        success: false, 
-        message: 'Маршрут не найден' 
-    });
+    res.status(404).json({ success: false, message: 'Маршрут не найден' });
 });
 
-// Обработка ошибок
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
-    res.status(500).json({ 
-        success: false, 
-        message: 'Внутренняя ошибка сервера' 
-    });
+    res.status(500).json({ success: false, message: 'Внутренняя ошибка сервера' });
 });
 
 app.listen(PORT, () => {
@@ -73,6 +62,5 @@ app.listen(PORT, () => {
     console.log(`🚀 Сервер НАТК запущен!`);
     console.log(`📍 Порт: ${PORT}`);
     console.log(`🌐 API: http://localhost:${PORT}`);
-    console.log(`🔧 Режим: ${process.env.NODE_ENV || 'development'}`);
     console.log(`=================================`);
 });

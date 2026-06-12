@@ -67,6 +67,118 @@ html, body {
   color: #f0ed69;
 }
 
+/* ========== СТИЛИ ДЛЯ ЗАГОЛОВКОВ КАТЕГОРИЙ ========== */
+.header__title {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-left: 20px;
+    transition: color 0.3s ease;
+    display: block;
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+}
+
+.header__title:hover {
+    color: #006ea6;
+}
+
+/* Стрелка для открытия/закрытия */
+.header__title::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    color: #006ea6;
+}
+
+/* Когда категория открыта - стрелка вниз */
+.header__title.open::before {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+/* Список файлов по умолчанию скрыт */
+.header__title + .file-list {
+    display: none;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Когда категория открыта - показываем список */
+.header__title.open + .file-list {
+    display: block;
+}
+
+/* Стили для контейнеров меню */
+.header__menu-op, .header__menu-mdk, .header__menu-ctp {
+    display: none;
+    width: 280px;
+    min-width: 200px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+    padding: 15px;
+    flex-direction: column;
+}
+
+/* Элементы списка файлов */
+.file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.file-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border-left: 3px solid #006ea6;
+    transition: all 0.2s;
+}
+
+.file-item-wrapper:hover {
+    background: #e9ecef;
+}
+
+.menu-link {
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Кнопка добавления файла */
+.add-file-btn {
+    display: block;
+    margin: 15px auto 10px auto;
+    padding: 10px 25px;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.add-file-btn:hover {
+    background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
 .header__nav {
   display: flex;
 }

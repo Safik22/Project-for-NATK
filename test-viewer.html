@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест просмотра файлов</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        iframe { width: 100%; height: 600px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Тест просмотра файлов из БД</h1>
+    
+    <div id="status"></div>
+    
+    <h3>Просмотр PDF:</h3>
+    <iframe id="pdfViewer" src=""></iframe>
+    
+    <script>
+        async function testViewer() {
+            const token = localStorage.getItem('natk_token');
+            const statusDiv = document.getElementById('status');
+            
+            if (!token) {
+                statusDiv.innerHTML = '<div class="error">❌ Вы не авторизованы. Войдите в систему сначала.</div>';
+                return;
+            }
+            
+            try {
+                // Получаем список файлов для категории description
+                const response = await fetch('http://localhost:3000/api/documents/competence/1/category/description', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.documents.length > 0) {
+                    statusDiv.innerHTML = `<div class="success">✅ Найдено ${data.documents.length} файлов</div>`;
+                    
+                    // Берем первый PDF файл
+                    const pdfFile = data.documents.find(d => d.mime_type === 'application/pdf');
+                    
+                    if (pdfFile) {
+                        const viewerUrl = `http://localhost:3000/api/documents/${pdfFile.id}/view`;
+                        document.getElementById('pdfViewer').src = viewerUrl;
+                        statusDiv.innerHTML += `<div class="success">✅ Загружен файл: ${pdfFile.name}</div>`;
+                    } else {
+                        statusDiv.innerHTML += `<div class="error">❌ Нет PDF файлов для теста</div>`;
+                    }
+                } else {
+                    statusDiv.innerHTML = '<div class="error">❌ Нет файлов в категории "Описание компетенции"</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Ошибка: ${error.message}</div>`;
+            }
+        }
+        
+        testViewer();
+    </script>
+</body>
+</html>

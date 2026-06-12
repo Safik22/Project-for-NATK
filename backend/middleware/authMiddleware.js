@@ -1,9 +1,7 @@
-// backend/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const authMiddleware = {
-    // Проверка токена
     verifyToken: (req, res, next) => {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
@@ -33,7 +31,6 @@ const authMiddleware = {
         }
     },
 
-    // Проверка роли администратора
     requireAdmin: async (req, res, next) => {
         try {
             const user = await User.findById(req.user.id);
@@ -62,7 +59,6 @@ const authMiddleware = {
         }
     },
 
-    // Проверка роли преподавателя
     requireTeacher: async (req, res, next) => {
         try {
             const user = await User.findById(req.user.id);
@@ -91,7 +87,6 @@ const authMiddleware = {
         }
     },
 
-    // Проверка подтвержденного статуса
     requireApproved: async (req, res, next) => {
         try {
             const user = await User.findById(req.user.id);
@@ -118,7 +113,70 @@ const authMiddleware = {
                 message: 'Ошибка сервера' 
             });
         }
-    }
+    },
+
+    // НОВАЯ ФУНКЦИЯ: Проверка доступа к компетенции
+    // Добавьте этот метод в authMiddleware
+requireCompetenceAccess: (competenceCodeParam = 'competenceCode') => {
+    return async (req, res, next) => {
+        try {
+            const competenceCode = req.params[competenceCodeParam] || req.body.competenceCode;
+            
+            if (!competenceCode) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: 'Не указана компетенция' 
+                });
+            }
+            
+            // Получаем ID компетенции по коду
+            const { Pool } = require('pg');
+            const pool = new Pool({
+                user: process.env.DB_USER,
+                host: process.env.DB_HOST,
+                database: process.env.DB_NAME,
+                password: process.env.DB_PASSWORD,
+                port: process.env.DB_PORT,
+            });
+            
+            const compResult = await pool.query(
+                'SELECT id FROM competences WHERE code = $1',
+                [competenceCode]
+            );
+            
+            if (compResult.rows.length === 0) {
+                return res.status(404).json({ 
+                    success: false, 
+                    message: 'Компетенция не найдена' 
+                });
+            }
+            
+            const competenceId = compResult.rows[0].id;
+            const user = await User.findById(req.user.id);
+            
+            if (user.role === 'admin') {
+                return next();
+            }
+            
+            const hasAccess = await User.hasCompetenceAccess(req.user.id, competenceId, user.role);
+            
+            if (!hasAccess) {
+                return res.status(403).json({ 
+                    success: false, 
+                    message: 'Доступ к этой компетенции запрещен' 
+                });
+            }
+            
+            next();
+        } catch (error) {
+            console.error('Competence access check error:', error);
+            res.status(500).json({ 
+                success: false, 
+                message: 'Ошибка проверки доступа' 
+            });
+        }
+    };
+}
 };
 
 module.exports = authMiddleware;
